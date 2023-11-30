@@ -3,18 +3,52 @@ const contexto = canvas.getContext("2d");
 
 const audio1 = new Audio('./assets/audio1.mp3')
 const audio2 = new Audio('./assets/audio2.mp3')
-let contComida= 0
+var contComida= 0
 let speed =0
+var recorde = 0
+
+var frutasComidas = document.getElementById('frutas')
+//declarando as variaveis pegando  tela de inicio, o jogo, a tela de game over para que ele apareça quando clicar no botão
+var jogo = document.getElementById('jogo')
+var inicio = document.getElementById('inicio')
+var gameOver = document.getElementById('gameOver')
+
+var numero = document.getElementById('numero')
 //tamanho dos quadrados
 const size = 20;
 
+//funcion para ele deixar a tela inicial escondida e aparecer a tela do jogo
+function comecar(){
+    if(jogo.style.display = 'none'){
+        jogo.style.display = 'flex'
+        inicio.style.display = 'none'
+    }
+}
+//funcion para ele deixar a tela de gameOver escondida e aparecer a tela do jogo
+function recomecar(){
+    if(jogo.style.display = 'none'){
+        jogo.style.display = 'flex'
+        gameOver.style.display = 'none'
+        
+        const cobra = [
+            {x: 240, y: 240}
+        ];
+    }
+}
+//funcion para ele deixar a tela de gameOver escondida e aparecer a tela de inicio
+function home(){
+    if(inicio.style.display = 'none'){
+        inicio.style.display = 'flex'
+        gameOver.style.display = 'none'
+        
+    }
+}
 //criado array com as posições
-const cobra = [
-    {x: 240, y: 240},
-    {x: 260, y: 240}
+let cobra = [
+    {x: 240, y: 240}
 ];
 
-//funções para numeros e cores aleatoria
+//funções para numeros,cores aleatoria das frutas e posições
 const numeroAleatorio = (min, max)=>{
     return Math.round(Math.random() *(max-min)+min) // gera numero aleatorio arredondado
 }
@@ -24,20 +58,23 @@ const randomPosition =()=>{
 }
 
 const corAleatoria =()=>{
-    const red = numeroAleatorio(0, 255) // faz a cor red ser ter um numero aleatorio de 0 a 255
-    const green = numeroAleatorio(0, 255)// faz a cor green ser ter um numero aleatorio de 0 a 255
-    const blue = numeroAleatorio(0, 255)// faz a cor blue ser ter um numero aleatorio de 0 a 255
-
+    const red = numeroAleatorio(0, 255) // faz a cor red  ter um numero aleatorio de 0 a 255
+    const green = numeroAleatorio(0, 255)// faz a cor green ter um numero aleatorio de 0 a 255
+    const blue = numeroAleatorio(0, 255)// faz a cor blue  ter um numero aleatorio de 0 a 255
+    //if para verificar se a cor da fruta não é igual a cor do background, se for ele faz outra cor
+    if(red == '189' && green =='101' && blue =='42'){
+        const red = numeroAleatorio(0, 255) 
+        const green = numeroAleatorio(0, 255)
+        const blue = numeroAleatorio(0, 255)
+    }
     return `rgb(${red}, ${green}, ${blue})`
 }
-//criando a variavel comida
+//criando a variavel de onde aparecerá a comida e a cor dela
 const comida ={
     x:randomPosition(),
     y:randomPosition(),
     color: corAleatoria()
 }
-
-
 
 //variavel da direção que ira se mover
 let direction
@@ -58,13 +95,13 @@ const aparecerComida = ()=>{
  //função de desenhar a cobra
 const desenharCobra = () =>{
     
-    contexto.fillStyle = "#ddd"; //definindo a cor
+    contexto.fillStyle = "#D3A499"; //definindo a cor
     
     //percorre todo o array para pegar todas as posições
     cobra.forEach((position, index) => {
         //colocando a cabeça com outra cor
         if(index == cobra.length -1){
-            contexto.fillStyle = "#222222";
+            contexto.fillStyle = "#E29C8C";
         }
         contexto.fillRect(position.x, position.y, size, size)
     })
@@ -73,20 +110,20 @@ const desenharCobra = () =>{
 //função para a cobra se mover
 const moverCobra = () =>{
     if(!direction) return;
-
+    //criando uma variavel que pega qual o ultimo quadrado criado ou seja a cabeça
     const head = cobra[cobra.length -1];
 
     if(direction == "right"){
-        cobra.push({x: head.x + size, y: head.y}) //coloca um novo valor no array com a posição que aparecerá o retangulo 
+        cobra.push({x: head.x + size, y: head.y}) //coloca um novo valor no array com a posição que aparecerá o retangulo(direita)
     }
     if(direction == "left"){
-        cobra.push({x: head.x - size, y: head.y}) //coloca um novo valor no array com a posição que aparecerá o retangulo 
+        cobra.push({x: head.x - size, y: head.y}) //coloca um novo valor no array com a posição que aparecerá o retangulo(esquerda) 
     }
     if(direction == "down"){
-        cobra.push({x: head.x, y: head.y+size}) //coloca um novo valor no array com a posição que aparecerá o retangulo 
+        cobra.push({x: head.x, y: head.y+size}) //coloca um novo valor no array com a posição que aparecerá o retangulo (baixo)
     }
     if(direction == "up"){
-        cobra.push({x: head.x, y: head.y-size}) //coloca um novo valor no array com a posição que aparecerá o retangulo
+        cobra.push({x: head.x, y: head.y-size}) //coloca um novo valor no array com a posição que aparecerá o retangulo(cima)
     }
 
     cobra.shift();  //remove o primeiro elemento do array
@@ -120,7 +157,7 @@ const comer =()=>{
         }else{
             audio2.play()
         }
-        
+        //da novas posições para a fruta aleatoriamente
         let x = randomPosition()
         let y = randomPosition()
 
@@ -134,21 +171,52 @@ const comer =()=>{
         comida.y= y
         comida.color = corAleatoria()
         contComida++;
+        frutasComidas.innerHTML= `${contComida} frutas coletadas`
+        
+    }
+}
+
+const colisao =()=>{
+    //pegando a cabeça
+    const head = cobra[cobra.length -1]
+    //variavel do limite em que a cobra pode chegar antes de morrer e variavel com a confirmação de que pegou na parede
+    const limiteCanvas =  canvas.width - size
+    const colisaoParede = head.x < 0 || head.x > limiteCanvas || head.y < 0 || head.y > limiteCanvas
+    const indexPescoco = cobra.length -2
+    // ve se a cabeça bateu eu um quadrado que seja menor que o pescoço, pois se não colocar vai dar looping infinito pois a posição da cabeça iria ser igual a posição do ultimo quadrado criado
+    const colisaoCobra = cobra.find((position, index)=>{
+    return index < indexPescoco && position.x == head.x && position.y == head.y
+    })
+    //ve se colidiu então mostra a tela de gameover e reseta as informações para não dar que a cobra ja está morta
+    if(colisaoParede || colisaoCobra){
+        if(recorde<contComida){
+            recorde = contComida
+        }
+        contComida = 0
+        frutasComidas.innerHTML= `${contComida} frutas coletadas`
+        numero.innerHTML = `${recorde}`
+        jogo.style.display = 'none'
+        gameOver.style.display = 'flex'
+        direction = undefined
+        cobra = [
+            {x: 240, y: 240}
+        ];
         
     }
 }
 
 //faz um loop para ela ir na direção clicada
 const gameLoop = () =>{
-    clearInterval(loopId) //limpando loop para não ficar rodando quando a função se repetir
+    clearInterval(loopId) //limpando loop para não ficar acumulando-os quando a função se repetir
     contexto.clearRect(0, 0, 600, 600); //limpa os retangulos da tela para que coloque os valores atualizados
     moverCobra()
     grid()
-    
     desenharCobra()
     aparecerComida()
     comer()
-    if(contComida<9){
+    colisao()
+    
+    if(contComida<10){
       speed = 300-contComida*20 //seta a velocidade para encrementar só ate um limite para não ficar muito rapido
     }
   
@@ -160,6 +228,7 @@ const gameLoop = () =>{
 }
 
 gameLoop()//chama a primeira vez o loop
+
 
 //faz o evento de apertar uma tecla
 document.addEventListener("keydown", ({key}) =>{ 
@@ -177,5 +246,4 @@ document.addEventListener("keydown", ({key}) =>{
             direction = "up"
         }
 
-    
 })

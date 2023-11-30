@@ -9,9 +9,30 @@
     <title>Jogo da cobrinha</title>
 </head>
 <body>
-    <h1 id="frutas">0</h1>
-    <canvas width="500" height="500"></canvas>
+    <div id="inicio">
+        <h1 >WormGame</h1>
+        <h2>Como jogar:</h2>
+        <p>Pegue as comidas sem bater nas paredes ou em sua minhoca!</p>
+        <pre>
+            &larr;: mover para esquerda
+            &uarr;: mover para cima
+            &rarr;: mover para a direita
+            &darr;: mover para baixo
+        </pre>
+        <button onclick="comecar()" id="play">Começar</button>
+    </div>
 
+    <div id="jogo">
+        <p id="frutas">0 frutas coletadas</p>
+        <canvas width="500" height="500"></canvas>
+    </div>
+    <div id="gameOver">
+        <h2>VOCÊ PERDEU!</h2>
+        <p>SEU RECORDE É</p>
+        <p id="numero">0</p>
+        <button onclick="recomecar()" id="recomecar">Jogar novamente</button>
+        <button onclick="home()" id="home">Ir para a tela inicial</button>
+    </div>
     <script src="script.js"> </script>
 </body>
 </html>
