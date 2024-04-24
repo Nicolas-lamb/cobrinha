@@ -31,7 +31,7 @@ function recomecar(){
         gameOver.style.display = 'none'
         
         const cobra = [
-            {x: 240, y: 240}
+            {x: 224, y: 144}
         ];
     }
 }
@@ -52,9 +52,13 @@ let cobra = [
 const numeroAleatorio = (min, max)=>{
     return Math.round(Math.random() *(max-min)+min) // gera numero aleatorio arredondado
 }
-const randomPosition =()=>{
-    const numero = numeroAleatorio(0, canvas.width-size)
-    return Math.round(numero/16)*16 // pega o numero divide por 20 e arredonda e depois multiplica por 20 para dar um multiplo de 20
+const randomPositionX =()=>{
+    const numeroX = numeroAleatorio(0, canvas.width-size)
+    return Math.round(numeroX/16)*16 // pega o numero divide por 20 e arredonda e depois multiplica por 20 para dar um multiplo de 20
+}
+const randomPositionY =()=>{
+    const numeroY = numeroAleatorio(0, canvas.height-size)
+    return Math.round(numeroY/16)*16 // pega o numero divide por 20 e arredonda e depois multiplica por 20 para dar um multiplo de 20
 }
 
 const corAleatoria =()=>{
@@ -71,8 +75,8 @@ const corAleatoria =()=>{
 }
 //criando a variavel de onde aparecerá a comida e a cor dela
 const comida ={
-    x:randomPosition(),
-    y:randomPosition(),
+    x:randomPositionX(),
+    y:randomPositionY(),
     color: corAleatoria()
 }
 
@@ -142,13 +146,13 @@ const comer =()=>{
             audio2.play()
         }
         //da novas posições para a fruta aleatoriamente
-        let x = randomPosition()
-        let y = randomPosition()
+        let x = randomPositionX()
+        let y = randomPositionY()
 
         //verificação para a fruta não spawnar na mesma posição que a cobra
         while(cobra.find((position)=> position.x == x && position.y == y)){
-             x = randomPosition()
-             y = randomPosition()
+             x = randomPositionX()
+             y = randomPositionY()
         }
 
         comida.x = x
@@ -164,8 +168,9 @@ const colisao =()=>{
     //pegando a cabeça
     const head = cobra[cobra.length -1]
     //variavel do limite em que a cobra pode chegar antes de morrer e variavel com a confirmação de que pegou na parede
-    const limiteCanvas =  canvas.width - size
-    const colisaoParede = head.x < 0 || head.x > limiteCanvas || head.y < 0 || head.y > limiteCanvas
+    const limiteCanvasWidth =  canvas.width - size
+    const limiteCanvasHeight =  canvas.height - size
+    const colisaoParede = head.x < 0 || head.x > limiteCanvasWidth || head.y < 0 || head.y > limiteCanvasHeight
     const indexPescoco = cobra.length -2
     // ve se a cabeça bateu eu um quadrado que seja menor que o pescoço, pois se não colocar vai dar looping infinito pois a posição da cabeça iria ser igual a posição do ultimo quadrado criado
     const colisaoCobra = cobra.find((position, index)=>{
@@ -216,16 +221,16 @@ gameLoop()//chama a primeira vez o loop
 //faz o evento de apertar uma tecla
 document.addEventListener("keydown", ({key}) =>{ 
 
-        if(key == "d" && direction != "left"){
+        if(key == "d" || key=="D" && direction != "left"){
             direction ="right" //incrementa a direção com a tecla usada
         }
-        if(key == "s"&& direction != "up"){
+        if(key == "s"|| key=="S" && direction != "up"){
             direction = "down"
         }
-        if(key == "a"&& direction != "right"){
+        if(key == "a"|| key=="A" && direction != "right"){
             direction = "left"
         }
-        if(key == "w"&& direction != "down"){
+        if(key == "w"|| key=="W" && direction != "down"){
             direction = "up"
         }
 
