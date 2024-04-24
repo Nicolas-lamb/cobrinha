@@ -15,7 +15,7 @@ var gameOver = document.getElementById('gameOver')
 
 var numero = document.getElementById('numero')
 //tamanho dos quadrados
-const size = 20;
+const size = 16;
 
 //funcion para ele deixar a tela inicial escondida e aparecer a tela do jogo
 function comecar(){
@@ -45,7 +45,7 @@ function home(){
 }
 //criado array com as posições
 let cobra = [
-    {x: 240, y: 240}
+    {x: 224, y: 144}
 ];
 
 //funções para numeros,cores aleatoria das frutas e posições
@@ -54,7 +54,7 @@ const numeroAleatorio = (min, max)=>{
 }
 const randomPosition =()=>{
     const numero = numeroAleatorio(0, canvas.width-size)
-    return Math.round(numero/20)*20 // pega o numero divide por 20 e arredonda e depois multiplica por 20 para dar um multiplo de 20
+    return Math.round(numero/16)*16 // pega o numero divide por 20 e arredonda e depois multiplica por 20 para dar um multiplo de 20
 }
 
 const corAleatoria =()=>{
@@ -128,23 +128,7 @@ const moverCobra = () =>{
 
     cobra.shift();  //remove o primeiro elemento do array
 }
-const grid = () =>{
-    contexto.lineWidth = .5 //definir a largura da linha
-    contexto.strokeStyle = "#191919"
 
-    //for para colocar todas as linhas de 25 em 25 posições até acabar o documento
-    for(let i = 20; i<canvas.width; i+=20){
-        contexto.beginPath() //para que ele não enterligue o final de um com o começo do outro
-        contexto.lineTo(i, 0) //mostraroinde começa
-        contexto.lineTo(i, 600) //mostrar onde termina
-        contexto.stroke()
-
-        contexto.beginPath() //para que ele não enterligue o final de um com o começo do outro
-        contexto.lineTo(0, i) //mostrar onde começa
-        contexto.lineTo(600, i) //mostrar onde termina
-        contexto.stroke()
-    }
-}
 
 const comer =()=>{
     const head = cobra[cobra.length -1];
@@ -199,7 +183,7 @@ const colisao =()=>{
         gameOver.style.display = 'flex'
         direction = undefined
         cobra = [
-            {x: 240, y: 240}
+            {x: 224, y: 144}
         ];
         
     }
@@ -208,9 +192,8 @@ const colisao =()=>{
 //faz um loop para ela ir na direção clicada
 const gameLoop = () =>{
     clearInterval(loopId) //limpando loop para não ficar acumulando-os quando a função se repetir
-    contexto.clearRect(0, 0, 600, 600); //limpa os retangulos da tela para que coloque os valores atualizados
+    contexto.clearRect(0, 0, 480, 320); //limpa os retangulos da tela para que coloque os valores atualizados
     moverCobra()
-    grid()
     desenharCobra()
     aparecerComida()
     comer()
@@ -233,16 +216,16 @@ gameLoop()//chama a primeira vez o loop
 //faz o evento de apertar uma tecla
 document.addEventListener("keydown", ({key}) =>{ 
 
-        if(key == "ArrowRight" && direction != "left"){
+        if(key == "d" && direction != "left"){
             direction ="right" //incrementa a direção com a tecla usada
         }
-        if(key == "ArrowDown"&& direction != "up"){
+        if(key == "s"&& direction != "up"){
             direction = "down"
         }
-        if(key == "ArrowLeft"&& direction != "right"){
+        if(key == "a"&& direction != "right"){
             direction = "left"
         }
-        if(key == "ArrowUp"&& direction != "down"){
+        if(key == "w"&& direction != "down"){
             direction = "up"
         }
 
