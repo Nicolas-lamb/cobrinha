@@ -129,6 +129,18 @@ const moverCobra = () =>{
     if(direction == "up"){
         cobra.push({x: head.x, y: head.y-size}) //coloca um novo valor no array com a posição que aparecerá o retangulo(cima)
     }
+    if(direction == "rightDown"){
+        cobra.push({x:head.x+(size/100*77), y: head.y+(size/100*77)})
+    }
+    if(direction == "rightUp"){
+        cobra.push({x:head.x+(size/100*77), y:head.y-(size/100*77)})
+    }
+    if(direction == "leftUp"){
+        cobra.push({x:head.x-(size/100*77), y:head.y-(size/100*77)})
+    }
+    if(direction == "leftDown"){
+        cobra.push({x:head.x-(size/100*77), y:head.y+(size/100*77)})
+    }
 
     cobra.shift();  //remove o primeiro elemento do array
 }
@@ -220,18 +232,23 @@ gameLoop()//chama a primeira vez o loop
 
 //faz o evento de apertar uma tecla
 document.addEventListener("keydown", ({key}) =>{ 
-
-        if(key == "d" || key=="D" && direction != "left"){
-            direction ="right" //incrementa a direção com a tecla usada
-        }
-        if(key == "s"|| key=="S" && direction != "up"){
-            direction = "down"
-        }
-        if(key == "a"|| key=="A" && direction != "right"){
-            direction = "left"
-        }
-        if(key == "w"|| key=="W" && direction != "down"){
-            direction = "up"
-        }
-
-})
+    
+    if(key == "d" || key=="D" && direction != "left"){
+        direction ="right" //incrementa a direção com a tecla usada
+    }else if(key == "s"|| key=="S" && direction != "up"){
+        direction = "down"
+    }else if(key == "a"|| key=="A" && direction != "right"){
+        direction = "left"
+    }else if(key == "w"|| key=="W" && direction != "down"){
+        direction = "up"
+    }else if(key == "d" || key=="D" && key == "s"|| key=="S"){
+        direction = "rightDown"
+    }else if(key == "d" || key=="D" && key == "w"|| key=="W"){
+        direction = "rightUp"
+    }else if(key == "a" || key=="A" && key == "w"|| key=="W"){
+        direction = "leftUp"
+    }else if(key == "a" || key=="A" && key == "s"|| key=="S"){
+        direction = "leftDown"
+    }
+    
+});
