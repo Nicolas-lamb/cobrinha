@@ -30,9 +30,7 @@ function recomecar(){
         jogo.style.display = 'flex'
         gameOver.style.display = 'none'
         
-        const cobra = [
-            {x: 224, y: 144}
-        ];
+    
     }
 }
 //funcion para ele deixar a tela de gameOver escondida e aparecer a tela de inicio
@@ -45,7 +43,9 @@ function home(){
 }
 //criado array com as posições
 let cobra = [
-    {x: 224, y: 144}
+    {x: 224, y: 144},
+    {x: 240, y:144},
+    {x:256, y:144}
 ];
 
 //funções para numeros,cores aleatoria das frutas e posições
@@ -116,6 +116,7 @@ const moverCobra = () =>{
     if(!direction) return;
     //criando uma variavel que pega qual o ultimo quadrado criado ou seja a cabeça
     const head = cobra[cobra.length -1];
+    const taile = cobra[0];
 
     if(direction == "right"){
         cobra.push({x: head.x + size, y: head.y}) //coloca um novo valor no array com a posição que aparecerá o retangulo(direita)
@@ -171,7 +172,7 @@ const comer =()=>{
         comida.y= y
         comida.color = corAleatoria()
         contComida++;
-        frutasComidas.innerHTML= `${contComida} frutas coletadas`
+        frutasComidas.innerHTML= `Points: ${contComida} `
         
     }
 }
@@ -194,13 +195,16 @@ const colisao =()=>{
             recorde = contComida
         }
         contComida = 0
-        frutasComidas.innerHTML= `${contComida} frutas coletadas`
+        frutasComidas.innerHTML= `Points: ${contComida}`
         numero.innerHTML = `${recorde}`
         jogo.style.display = 'none'
         gameOver.style.display = 'flex'
         direction = undefined
         cobra = [
-            {x: 224, y: 144}
+            {x: 224, y: 144},
+            {x: 240, y:144},
+            {x:256, y:144}
+            
         ];
         
     }
@@ -229,7 +233,7 @@ const gameLoop = () =>{
 
 gameLoop()//chama a primeira vez o loop
 
-
+let keysPress = {};
 //faz o evento de apertar uma tecla
 document.addEventListener("keydown", ({key}) =>{ 
     
