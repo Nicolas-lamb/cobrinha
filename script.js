@@ -235,7 +235,7 @@ gameLoop()//chama a primeira vez o loop
 
 let keysPress = {};
 //faz o evento de apertar uma tecla
-document.addEventListener("keydown", ({key}) =>{ 
+document.addEventListener("keyup", ({key}) =>{ 
     
     if(key == "d" || key=="D" && direction != "left"){
         direction ="right" //incrementa a direção com a tecla usada
@@ -256,3 +256,5 @@ document.addEventListener("keydown", ({key}) =>{
     }
     
 });
+
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,20 +7,21 @@
     <meta name="description" content="Jogue o jogo da cobrinha">
     <meta name="keywords" content="jogo cobrinha, jogos, diversão">
     <link rel="stylesheet" href="style.css">
-    <title>Jogo da cobrinha</title>
+    <title>WormGame</title>
 </head>
 <body>
     <div id="inicio">
         <h1 >WormGame</h1>
-        <h2>Como jogar:</h2>
-        <p>Pegue as comidas sem bater nas paredes ou em sua minhoca!</p>
-        <pre>
-            a: mover para esquerda
-            w: mover para cima
-            d: mover para a direita
-            s: mover para baixo
-        </pre>
-        <button onclick="comecar()" id="play">Começar</button>
+        <h2>How to play:</h2>
+        <p>Catch the apples and mice without hitting walls or your own worm!</p>
+        <li>
+            <ul>a: move left</ul>
+            <ul>w: move up</ul>
+            <ul>d: move right</ul>
+            <ul>s: move down</ul>
+        
+        </li>
+        <button onclick="comecar()" id="play">Start</button>
     </div>
 
     <div id="jogo">
@@ -28,11 +29,11 @@
         <canvas width="480" height="320"></canvas>
     </div>
     <div id="gameOver">
-        <h2>VOCÊ PERDEU!</h2>
-        <p>SEU RECORDE É:</p>
+        <h2>You lost!</h2>
+        <p>Your record is: </p>
         <p id="numero">0</p>
-        <button onclick="recomecar()" id="recomecar">Jogar novamente</button>
-        <button onclick="home()" id="home">Ir para a tela inicial</button>
+        <button onclick="recomecar()" id="recomecar">Play again</button>
+        <button onclick="home()" id="home">Go to home screen</button>
     </div>
     <script src="script.js"> </script>
 </body>
