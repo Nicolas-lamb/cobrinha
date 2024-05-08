@@ -131,16 +131,16 @@ const moverCobra = () =>{
         cobra.push({x: head.x, y: head.y-size}) //coloca um novo valor no array com a posição que aparecerá o retangulo(cima)
     }
     if(direction == "rightDown"){
-        cobra.push({x:head.x+(size/100*77), y: head.y+(size/100*77)})
+        cobra.push({x:head.x+(size/ Math.sqrt(2)), y: head.y+(size/ Math.sqrt(2))})
     }
     if(direction == "rightUp"){
-        cobra.push({x:head.x+(size/100*77), y:head.y-(size/100*77)})
+        cobra.push({x:head.x+(size/ Math.sqrt(2)), y:head.y-(size/ Math.sqrt(2))})
     }
     if(direction == "leftUp"){
-        cobra.push({x:head.x-(size/100*77), y:head.y-(size/100*77)})
+        cobra.push({x:head.x-(size/ Math.sqrt(2)), y:head.y-(size/ Math.sqrt(2))})
     }
     if(direction == "leftDown"){
-        cobra.push({x:head.x-(size/100*77), y:head.y+(size/100*77)})
+        cobra.push({x:head.x-(size/ Math.sqrt(2)), y:head.y+(size/ Math.sqrt(2))})
     }
 
     cobra.shift();  //remove o primeiro elemento do array
@@ -149,7 +149,7 @@ const moverCobra = () =>{
 
 const comer =()=>{
     const head = cobra[cobra.length -1];
-    if(head.x == comida.x && head.y == comida.y){
+    if(head.x == comida.x && head.x+16 == comida.x+16 && head.y == comida.y &&head.y+16 == comida.y+16){
         cobra.push(head)
         //coloca o audio de comer, podendo ser qualquer um dos 2
         let audioAleatorio = Math.round(Math.random() *(2-1)+1)
@@ -233,28 +233,41 @@ const gameLoop = () =>{
 
 gameLoop()//chama a primeira vez o loop
 
-let keysPress = {};
-//faz o evento de apertar uma tecla
-document.addEventListener("keyup", ({key}) =>{ 
-    
-    if(key == "d" || key=="D" && direction != "left"){
-        direction ="right" //incrementa a direção com a tecla usada
-    }else if(key == "s"|| key=="S" && direction != "up"){
-        direction = "down"
-    }else if(key == "a"|| key=="A" && direction != "right"){
-        direction = "left"
-    }else if(key == "w"|| key=="W" && direction != "down"){
-        direction = "up"
-    }else if(key == "d" || key=="D" && key == "s"|| key=="S"){
-        direction = "rightDown"
-    }else if(key == "d" || key=="D" && key == "w"|| key=="W"){
-        direction = "rightUp"
-    }else if(key == "a" || key=="A" && key == "w"|| key=="W"){
-        direction = "leftUp"
-    }else if(key == "a" || key=="A" && key == "s"|| key=="S"){
-        direction = "leftDown"
+
+let keysPressed = {}; // Objeto para rastrear quais teclas estão pressionadas
+
+// Função para definir a direção com base nas teclas pressionadas
+const definirDirecao = () => {
+    if (keysPressed["d"] && keysPressed["w"]) {
+        direction = "rightUp"; // Diagonal para cima e para a direita
+    } else if (keysPressed["d"] && keysPressed["s"]) {
+        direction = "rightDown"; // Diagonal para baixo e para a direita
+    } else if (keysPressed["a"] && keysPressed["w"]) {
+        direction = "leftUp"; // Diagonal para cima e para a esquerda
+    } else if (keysPressed["a"] && keysPressed["s"]) {
+        direction = "leftDown"; // Diagonal para baixo e para a esquerda
+    } else if (keysPressed["w"]) {
+        direction = "up"; // Somente para cima
+    } else if (keysPressed["s"]) {
+        direction = "down"; // Somente para baixo
+    } else if (keysPressed["a"]) {
+        direction = "left"; // Somente para a esquerda
+    } else if (keysPressed["d"]) {
+        direction = "right"; // Somente para a direita
     }
-    
+};
+
+// Evento para quando uma tecla é pressionada
+document.addEventListener("keydown", ({ key }) => {
+    keysPressed[key.toLowerCase()] = true; // Armazena a tecla pressionada
+    definirDirecao(); // Define a direção com base nas teclas pressionadas
 });
+
+// Evento para quando uma tecla é solta
+document.addEventListener("keyup", ({ key }) => {
+    delete keysPressed[key.toLowerCase()]; // Remove a tecla quando solta
+    definirDirecao(); // Atualiza a direção após uma tecla ser solta
+});
+
 
 
