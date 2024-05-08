@@ -149,7 +149,8 @@ const moverCobra = () =>{
 
 const comer =()=>{
     const head = cobra[cobra.length -1];
-    if(head.x == comida.x && head.x+16 == comida.x+16 && head.y == comida.y &&head.y+16 == comida.y+16){
+
+    if(head.x == comida.x && head.y == comida.y){
         cobra.push(head)
         //coloca o audio de comer, podendo ser qualquer um dos 2
         let audioAleatorio = Math.round(Math.random() *(2-1)+1)
@@ -173,7 +174,6 @@ const comer =()=>{
         comida.color = corAleatoria()
         contComida++;
         frutasComidas.innerHTML= `Points: ${contComida} `
-        
     }
 }
 
