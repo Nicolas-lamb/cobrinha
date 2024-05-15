@@ -7,6 +7,7 @@ var contComida= 0
 let speed =0
 var recorde = 0
 
+
 var frutasComidas = document.getElementById('frutas')
 //declarando as variaveis pegando  tela de inicio, o jogo, a tela de game over para que ele apareça quando clicar no botão
 var jogo = document.getElementById('jogo')
@@ -89,17 +90,65 @@ let direction= "right"
 const aparecerComida = ()=>{
 
     const {x,y,color} = comida
+    
+    let apple = new Image()
+    apple.src="apple.png"
 
-    contexto.shadowColor = color
-    contexto.shadowBlur = 10
-    contexto.fillStyle = color
-    contexto.fillRect(x, y, size, size)
-    contexto.shadowBlur = 0 //para ele não colocar a sombra nos outros elementos
+    apple.addEventListener('load', ()=>{
+        contexto.drawImage(apple, x, y, size, size)
+    })
+   
 }
+
+const desenharCorpo=()=>{
+    if(direction=="right"){
+        let bodyDraw = new Image();
+        bodyDraw.src = "b1.png"
+    }
+    if(direction=="left"){
+        let bodyDraw = new Image();
+        bodyDraw.src = "b1.png"
+    }
+    if(direction=="up"){
+        let bodyDraw = new Image();
+        bodyDraw.src = "s2.png"
+    }
+    if(direction=="down"){
+        let bodyDraw = new Image();
+        bodyDraw.src = "s2.png"
+    }
+    if(direction=="leftUp"){
+        let bodyDraw = new Image();
+        bodyDraw.src = "b3.png"
+    }
+    if(direction=="leftDown"){
+        let bodyDraw = new Image();
+        bodyDraw.src = "b4.png"
+    }
+    if(direction=="rightUp"){
+        let bodyDraw = new Image();
+        bodyDraw.src = "b4.png"
+    }
+    if(direction=="rightDown"){
+        let bodyDraw = new Image();
+        bodyDraw.src = "b3.png"
+    }
+    bodyDraw.addEventListener('load', ()=>{
+        contexto.drawImage(bodyDraw, 224, 144, 16, 16)
+    })
+    
+}
+
 
  //função de desenhar a cobra
 const desenharCobra = () =>{
-    
+    let body = new Image()
+    body.src="b1.png"
+
+    body.addEventListener('load', ()=>{
+        contexto.drawImage(body, 224, 144, 16,16)
+    })
+
     contexto.fillStyle = "#D3A499"; //definindo a cor
     
     //percorre todo o array para pegar todas as posições
@@ -150,6 +199,7 @@ const moverCobra = () =>{
     }
 
     cobra.shift();  //remove o primeiro elemento do array
+    //desenharCorpo()
 }
 
 
