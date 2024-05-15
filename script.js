@@ -82,7 +82,7 @@ const comida ={
 }
 
 //variavel da direção que ira se mover
-let direction
+let direction= "right"
 //variavel para limpar o timeout
     let loopId
 
@@ -121,6 +121,7 @@ const moverCobra = () =>{
 
     if(direction == "right"){
         cobra.push({x: head.x + size, y: head.y}) //coloca um novo valor no array com a posição que aparecerá o retangulo(direita)
+      
     }
     if(direction == "left"){
         cobra.push({x: head.x - size, y: head.y}) //coloca um novo valor no array com a posição que aparecerá o retangulo(esquerda) 
@@ -132,16 +133,20 @@ const moverCobra = () =>{
         cobra.push({x: head.x, y: head.y-size}) //coloca um novo valor no array com a posição que aparecerá o retangulo(cima)
     }
     if(direction == "rightDown"){
-        cobra.push({x:head.x+(size/ Math.sqrt(2)), y: head.y+(size/ Math.sqrt(2))})
+        cobra.push({x:head.x+(size), y: head.y+(size)})
+        
     }
     if(direction == "rightUp"){
-        cobra.push({x:head.x+(size/ Math.sqrt(2)), y:head.y-(size/ Math.sqrt(2))})
+        cobra.push({x:head.x+(size), y:head.y-(size)})
+       
     }
     if(direction == "leftUp"){
-        cobra.push({x:head.x-(size/ Math.sqrt(2)), y:head.y-(size/ Math.sqrt(2))})
+        cobra.push({x:head.x-(size), y:head.y-(size)})
+        
     }
     if(direction == "leftDown"){
-        cobra.push({x:head.x-(size/ Math.sqrt(2)), y:head.y+(size/ Math.sqrt(2))})
+        cobra.push({x:head.x-(size), y:head.y+(size)})
+        
     }
 
     cobra.shift();  //remove o primeiro elemento do array
@@ -202,7 +207,7 @@ const colisao =()=>{
         numero.innerHTML = `${recorde}`
         jogo.style.display = 'none'
         gameOver.style.display = 'flex'
-        direction = undefined
+        direction = "right"
         cobra = [
             {x: 224, y: 144},
             {x: 240, y:144},
@@ -225,15 +230,39 @@ const gameLoop = () =>{
     comer()
     colisao()
     
+
+   
+    
     if(contComida<10){
-      speed = 300-contComida*20 //seta a velocidade para encrementar só ate um limite para não ficar muito rapido
-    }
-  
+        speed = 300-contComida*20 //seta a velocidade para encrementar só ate um limite para não ficar muito rapido
+
+        if(direction == "rightDown"){
+            speed = speed*Math.sqrt(2.5)
+        }
+        if(direction == "rightUp"){
+            
+            speed = speed*Math.sqrt(2.5)
+        }
+        if(direction == "leftUp"){
+            
+            speed = speed*Math.sqrt(2.5)
+        }
+        if(direction == "leftDown"){
+            
+           speed = speed*Math.sqrt(2.5)
+        }
+      }
+    
+     
     
     loopId = setTimeout(()=>{
+        console.log(speed)
+        console.log(contComida)
         gameLoop()
     },speed)//aumenta a velocidade da cobra conforme pega as "frutas"
     
+    
+
 }
 
 gameLoop()//chama a primeira vez o loop
@@ -251,13 +280,13 @@ const definirDirecao = () => {
         direction = "leftUp"; // Diagonal para cima e para a esquerda
     } else if (keysPressed["a"] && keysPressed["s"]) {
         direction = "leftDown"; // Diagonal para baixo e para a esquerda
-    } else if (keysPressed["w"]) {
+    } else if (keysPressed["w"] && direction!="down") {
         direction = "up"; // Somente para cima
-    } else if (keysPressed["s"]) {
+    } else if (keysPressed["s"] && direction!="up") {
         direction = "down"; // Somente para baixo
-    } else if (keysPressed["a"]) {
+    } else if (keysPressed["a"] && direction!="right") {
         direction = "left"; // Somente para a esquerda
-    } else if (keysPressed["d"]) {
+    } else if (keysPressed["d"] && direction!="left") {
         direction = "right"; // Somente para a direita
     }
 };
