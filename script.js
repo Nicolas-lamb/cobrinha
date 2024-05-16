@@ -63,23 +63,11 @@ const randomPositionY =()=>{
     return Math.round(numeroY/16)*16 // pega o numero divide por 20 e arredonda e depois multiplica por 20 para dar um multiplo de 20
 }
 
-const corAleatoria =()=>{
-    const red = numeroAleatorio(0, 255) // faz a cor red  ter um numero aleatorio de 0 a 255
-    const green = numeroAleatorio(0, 255)// faz a cor green ter um numero aleatorio de 0 a 255
-    const blue = numeroAleatorio(0, 255)// faz a cor blue  ter um numero aleatorio de 0 a 255
-    //if para verificar se a cor da fruta não é igual a cor do background, se for ele faz outra cor
-    if(red == '189' && green =='101' && blue =='42'){
-        const red = numeroAleatorio(0, 255) 
-        const green = numeroAleatorio(0, 255)
-        const blue = numeroAleatorio(0, 255)
-    }
-    return `rgb(${red}, ${green}, ${blue})`
-}
+
 //criando a variavel de onde aparecerá a comida e a cor dela
 const comida ={
     x:randomPositionX(),
     y:randomPositionY(),
-    color: corAleatoria()
 }
 
 //variavel da direção que ira se mover
@@ -100,65 +88,125 @@ const aparecerComida = ()=>{
    
 }
 
-const desenharCorpo=()=>{
+const eventLoad = (x,y, bodyDraw)=>{
+    bodyDraw.addEventListener('load', ()=>{
+        contexto.drawImage(bodyDraw, x, y, 16, 16)
+    })
+}
+
+const desenharCorpo=(x,y)=>{
     if(direction=="right"){
         let bodyDraw = new Image();
         bodyDraw.src = "b1.png"
+        eventLoad(x, y, bodyDraw)
     }
     if(direction=="left"){
         let bodyDraw = new Image();
         bodyDraw.src = "b1.png"
+        eventLoad(x, y, bodyDraw)
     }
     if(direction=="up"){
         let bodyDraw = new Image();
-        bodyDraw.src = "s2.png"
+        bodyDraw.src = "b2.png"
+        eventLoad(x, y, bodyDraw)
     }
     if(direction=="down"){
         let bodyDraw = new Image();
-        bodyDraw.src = "s2.png"
+        bodyDraw.src = "b2.png"
+        eventLoad(x, y, bodyDraw)
     }
     if(direction=="leftUp"){
         let bodyDraw = new Image();
         bodyDraw.src = "b3.png"
+        eventLoad(x, y, bodyDraw)
     }
     if(direction=="leftDown"){
         let bodyDraw = new Image();
         bodyDraw.src = "b4.png"
+        eventLoad(x, y, bodyDraw)
     }
     if(direction=="rightUp"){
         let bodyDraw = new Image();
         bodyDraw.src = "b4.png"
+        eventLoad(x, y, bodyDraw)
     }
     if(direction=="rightDown"){
         let bodyDraw = new Image();
         bodyDraw.src = "b3.png"
+        eventLoad(x, y, bodyDraw)
     }
-    bodyDraw.addEventListener('load', ()=>{
-        contexto.drawImage(bodyDraw, 224, 144, 16, 16)
+   
+}
+
+const eventLoad2 = (x,y, headDraw)=>{
+    headDraw.addEventListener('load', ()=>{
+        contexto.drawImage(headDraw, x, y, 16, 16)
     })
+}
+
+const desenharHead=(x, y)=>{
+    if(direction=="right"){
+        let headDraw = new Image();
+        headDraw.src = "s5.png"
+        eventLoad2(x, y, headDraw)
+    }
+    if(direction=="left"){
+        let headDraw = new Image();
+        headDraw.src = "s1.png"
+        eventLoad2(x, y, headDraw)
+    }
+    if(direction=="up"){
+        let headDraw = new Image();
+        headDraw.src = "s3.png"
+        eventLoad2(x, y, headDraw)
+    }
+    if(direction=="down"){
+        let headDraw = new Image();
+        headDraw.src = "s7.png"
+        eventLoad2(x, y, headDraw)
+    }
+    if(direction=="leftUp"){
+        let headDraw = new Image();
+        headDraw.src = "s2.png"
+        eventLoad2(x, y, headDraw)
+    }
+    if(direction=="leftDown"){
+        let headDraw = new Image();
+        headDraw.src = "s8.png"
+        eventLoad2(x, y, headDraw)
+    }
+    if(direction=="rightUp"){
+        let headDraw = new Image();
+        headDraw.src = "s4.png"
+        eventLoad2(x, y, headDraw)
+    }
+    if(direction=="rightDown"){
+        let headDraw = new Image();
+        headDraw.src = "s6.png"
+        eventLoad2(x, y, headDraw)
+    }
+    
     
 }
 
 
  //função de desenhar a cobra
 const desenharCobra = () =>{
-    let body = new Image()
-    body.src="b1.png"
-
-    body.addEventListener('load', ()=>{
-        contexto.drawImage(body, 224, 144, 16,16)
+    cobra.forEach((position, index) => {
+        //colocando a cabeça com outra cor
+        if(index != cobra.length -1){
+            desenharCorpo(position.x, position.y)
+        }
     })
-
-    contexto.fillStyle = "#D3A499"; //definindo a cor
     
     //percorre todo o array para pegar todas as posições
     cobra.forEach((position, index) => {
         //colocando a cabeça com outra cor
         if(index == cobra.length -1){
-            contexto.fillStyle = "#E29C8C";
+            desenharHead(position.x, position.y)
         }
-        contexto.fillRect(position.x, position.y, size, size)
     })
+
     };
 
 //função para a cobra se mover
@@ -201,6 +249,7 @@ const moverCobra = () =>{
     cobra.shift();  //remove o primeiro elemento do array
     //desenharCorpo()
 }
+
 
 
 const comer =()=>{
