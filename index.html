@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Nicolas Lamb">
+    <meta name="description" content="Play wormGame">
+    <meta name="keywords" content="wormGame, games, fun">
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <title>WormGame</title>
+</head>
+<body>
+    <div id="inicio">
+        
+        <img src="logo.png" style="position: absolute; left:5px; width:100px; height: auto; top:10px;">
+        <h1>SNAKEGONAL</h1>
+        <h2>How to play:</h2>
+        <p>Catch the apples and mice without hitting walls or your own worm!</p>
+        <li>
+            <ul>a: move left</ul>
+            <ul>w: move up</ul>
+            <ul>d: move right</ul>
+            <ul>s: move down</ul>
+        
+        </li>
+        <button onclick="comecar()" id="play">Start</button>
+    </div>
+    <p id="level" style="position: absolute; right: 10px; top: 10px;">Level: 0</p>
+    <div id="jogo">
+        <p id="frutas">Points: 0</p>
+        <p id="distancia"></p>
+        <div id="container" style="width: 100%; display: flex;">
+            
+            <div id="vida">
+                <p style="position: absolute; font-size:12px;padding-left: 10px;">Life:</p>
+                <div id="barra">
+                    
+                </div>
+            </div>
+        </div>
+        
+        <canvas width="480" height="320"></canvas>
+    </div>
+    <div id="gameOver">
+        <img src="Game_Over.png">
+        <p>Your record is: </p>
+        <p id="numero">0</p>
+        <button onclick="recomecar()" id="recomecar">Play again</button>
+        <button onclick="home()" id="home">Go to home screen</button>
+    </div>
+    
+    <script src="script.js"> </script>
+</body>
+</html>
