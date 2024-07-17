@@ -596,5 +596,50 @@ document.addEventListener("keyup", ({ key }) => {
     definirDirecao(); // Atualiza a direção após uma tecla ser solta
 });
 
+let touchStartX = 0;
+let touchStartY = 0;
+
+window.addEventListener("touchstart", (event) => {
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+});
+
+window.addEventListener("touchmove", (event) => {
+    let touchEndX = event.touches[0].clientX;
+    let touchEndY = event.touches[0].clientY;
+
+    let deltaX = touchEndX - touchStartX;
+    let deltaY = touchEndY - touchStartY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX > 0 && deltaY > 0 && direction !== "leftUp") {
+            direction = "rightDown";
+        } else if (deltaX > 0 && deltaY < 0 && direction !== "leftDown") {
+            direction = "rightUp";
+        } else if (deltaX < 0 && deltaY > 0 && direction !== "rightUp") {
+            direction = "leftDown";
+        } else if (deltaX < 0 && deltaY < 0 && direction !== "rightDown") {
+            direction = "leftUp";
+        } else if (deltaX > 0 && direction !== "left") {
+            direction = "right";
+        } else if (deltaX < 0 && direction !== "right") {
+            direction = "left";
+        }
+    } else {
+        if (deltaY > 0 && direction !== "up") {
+            direction = "down";
+        } else if (deltaY < 0 && direction !== "down") {
+            direction = "up";
+        }
+    }
+
+    touchStartX = touchEndX;
+    touchStartY = touchEndY;
+});
+
+window.addEventListener("touchend", () => {
+    touchStartX = 0;
+    touchStartY = 0;
+});
 
 
