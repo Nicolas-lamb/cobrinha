@@ -635,11 +635,13 @@ window.addEventListener("touchmove", (event) => {
 
     touchStartX = touchEndX;
     touchStartY = touchEndY;
+    
 });
 
 window.addEventListener("touchend", () => {
     touchStartX = 0;
     touchStartY = 0;
+    
 });
 
 
